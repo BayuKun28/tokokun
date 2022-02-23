@@ -46,4 +46,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+    <style>
+        @media(max-width: 576px) {
+            .nota {
+                justify-content: center !important;
+                text-align: center !important;
+            }
+        }
+    </style>
 </head>

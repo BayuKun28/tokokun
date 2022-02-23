@@ -79,4 +79,30 @@ class Produk extends CI_Controller
         $this->session->set_flashdata('message', 'Berhasil Di Update');
         redirect('Produk');
     }
+    public function get_nama()
+    {
+        header('Content-type: application/json');
+        $id = $this->input->post('id');
+        echo json_encode($this->produk_model->getNama($id));
+    }
+
+    public function get_stok()
+    {
+        header('Content-type: application/json');
+        $id = $this->input->post('id');
+        echo json_encode($this->produk_model->getStok($id));
+    }
+    public function get_barcode()
+    {
+        header('Content-type: application/json');
+        $barcode = $this->input->post('barcode');
+        $search = $this->produk_model->getBarcode($barcode);
+        foreach ($search as $barcode) {
+            $data[] = array(
+                'id' => $barcode->id,
+                'text' => $barcode->barcode
+            );
+        }
+        echo json_encode($data);
+    }
 }

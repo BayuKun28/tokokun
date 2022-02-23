@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Produk_model extends CI_Model
 {
+    private $table = 'produk';
 
     public function read()
     {
@@ -35,5 +36,26 @@ class Produk_model extends CI_Model
         return $this->db->query($query)->result_array();
         // die($query);
         echo json_encode($query);
+    }
+
+    public function getNama($id)
+    {
+        $this->db->select('nama_produk, stok');
+        $this->db->where('id', $id);
+        return $this->db->get($this->table)->row();
+    }
+
+    public function getStok($id)
+    {
+        $this->db->select('stok, nama_produk, harga, barcode');
+        $this->db->where('id', $id);
+        return $this->db->get($this->table)->row();
+    }
+
+    public function getBarcode($search = '')
+    {
+        $this->db->select('produk.id, produk.barcode');
+        $this->db->like('barcode', $search);
+        return $this->db->get($this->table)->result();
     }
 }

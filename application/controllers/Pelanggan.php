@@ -56,4 +56,17 @@ class Pelanggan extends CI_Controller
         $this->session->set_flashdata('message', 'Berhasil Di Update');
         redirect('Pelanggan');
     }
+    public function search()
+    {
+        header('Content-type: application/json');
+        $pelanggan = $this->input->post('pelanggan');
+        $search = $this->pelanggan_model->search($pelanggan);
+        foreach ($search as $pelanggan) {
+            $data[] = array(
+                'id' => $pelanggan->id,
+                'text' => $pelanggan->nama
+            );
+        }
+        echo json_encode($data);
+    }
 }
