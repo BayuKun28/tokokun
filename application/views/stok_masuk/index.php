@@ -120,6 +120,7 @@
 
     $('.itemBarcode').select2({
         width: '100%',
+        placeholder: "Pelanggan",
         ajax: {
             url: "<?= base_url(); ?>/Stok_masuk/getbarcode",
             dataType: "json",

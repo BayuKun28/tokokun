@@ -97,5 +97,6 @@ class Transaksi_model extends CI_Model
     {
         $sql = "SELECT COUNT(*) as total FROM transaksi WHERE DATE_FORMAT(tanggal, '%d %m %Y') BETWEEN '$tglawal' AND '$tglakhir' ";
         return $this->db->query($sql)->row();
+        // die($sql);
     }
 }

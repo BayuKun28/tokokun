@@ -7,6 +7,9 @@ class Satuan_produk extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        if ($this->session->userdata('status') !== 'login') {
+            redirect('/');
+        }
         $this->load->model('satuan_produk_model');
     }
 

@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group">
                         <label>Pelanggan</label>
-                        <select name="pelannggan" id="pelanggan" class="form-control select2"></select>
+                        <select name="pelannggan" id="pelanggan" class="form-control pelanggan"></select>
                     </div>
                     <div class="form-group">
                         <label>Jumlah Uang</label>

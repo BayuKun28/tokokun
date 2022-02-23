@@ -6,6 +6,9 @@ class Transaksi extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        if ($this->session->userdata('status') !== 'login') {
+            redirect('/');
+        }
         $this->load->model('transaksi_model');
     }
     public function index()
@@ -127,6 +130,15 @@ class Transaksi extends CI_Controller
         header('Content-type: application/json');
         $now = date('d m Y');
         $total = $this->transaksi_model->transaksiHari($now);
+        echo json_encode($total);
+    }
+
+    public function transaksi_bulan()
+    {
+        header('Content-type: application/json');
+        $tglawal = date('1-m-Y');
+        $tglakkhir = date('t-m-Y');
+        $total = $this->transaksi_model->transaksibulan($tglawal, $tglakkhir);
         echo json_encode($total);
     }
 

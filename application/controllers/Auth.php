@@ -7,6 +7,7 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
+        $this->load->model('auth_model');
     }
     public function index()
     {
@@ -25,6 +26,7 @@ class Auth extends CI_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $user = $this->db->get_where('pengguna', ['username' => $username])->row_array();
+        $toko = $this->auth_model->getToko();
         if ($user) {
             if ($user['is_active'] == 1) {
                 if (password_verify($password, $user['password'])) {
@@ -32,16 +34,11 @@ class Auth extends CI_Controller
                         'id' => $user['id'],
                         'username' => $user['username'],
                         'role_id' => $user['role_id'],
+                        'status' => 'login',
+                        'toko' => $toko
                     ];
                     $this->session->set_userdata($data);
                     redirect('dashboard');
-                    // if ($user['role_id'] == 1) {
-                    //     redirect('dashboard');
-                    // } elseif ($user['role_id'] == 2) {
-                    //     redirect('dashboard');
-                    // } elseif ($user['role_id'] == 3) {
-                    //     redirect('dashboard/pengunjung');
-                    // }
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong Password.!</div>');
                     redirect('auth');

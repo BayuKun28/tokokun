@@ -53,31 +53,19 @@
             </li>
 
             <li>
-                <a href="<?= base_url('Transaksi'); ?>"><i class="fa fa-table fa-fw"></i> Transaksi</a>
+                <a href="<?= base_url('Transaksi'); ?>"><i class="fa fa-money fa-fw"></i> Transaksi</a>
             </li>
             <li>
-                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-book fa-fw"></i> Laporan<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="panels-wells.html">Panels and Wells</a>
+                        <a href="<?= base_url('Laporan_penjualan'); ?>">Laporan Penjualan</a>
                     </li>
                     <li>
-                        <a href="buttons.html">Buttons</a>
+                        <a href="buttons.html">Laporan Stok Masuk</a>
                     </li>
                     <li>
-                        <a href="notifications.html">Notifications</a>
-                    </li>
-                    <li>
-                        <a href="typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="icons.html"> Icons</a>
-                    </li>
-                    <li>
-                        <a href="grid.html">Grid</a>
+                        <a href="notifications.html">Laporan Stok Keluar</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
