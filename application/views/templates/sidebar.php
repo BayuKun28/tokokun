@@ -55,6 +55,10 @@
             <li>
                 <a href="<?= base_url('Transaksi'); ?>"><i class="fa fa-money fa-fw"></i> Transaksi</a>
             </li>
+
+            <li>
+                <a href="<?= base_url('Order'); ?>"><i class="fa fa-money fa-fw"></i> Order</a>
+            </li>
             <li>
                 <a href="#"><i class="fa fa-book fa-fw"></i> Laporan<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">

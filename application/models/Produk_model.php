@@ -22,6 +22,26 @@ class Produk_model extends CI_Model
         return $this->db->query($query)->result_array();
         echo json_encode($query);
     }
+
+    function get_all_produk()
+    {
+        $query = "SELECT p.id,p.barcode,
+                    p.nama_produk,
+                    p.kategori as kdkategori,
+                    kp.kategori,
+                    p.satuan as kdsatuan,
+                    sp.satuan,
+                    p.harga,
+                    p.stok,
+                    p.harga_modal 
+                    FROM produk p
+                    LEFT JOIN kategori_produk kp on kp.id = p.kategori
+                    LEFT JOIN satuan_produk sp on sp.id = p.satuan
+                    WHERE p.stok > 0 ORDER BY p.id";
+        return $this->db->query($query)->result();
+        // $hasil = $this->db->get('produk');
+        // return $hasil->result();
+    }
     public function getsatuanselect2($sat)
     {
         $query = "SELECT * FROM satuan_produk WHERE satuan LIKE '%$sat%'";
