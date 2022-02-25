@@ -21,6 +21,7 @@ class Order extends CI_Controller
         $data['title'] = 'Transaksi';
         $data['user'] = $this->db->get_where('pengguna', ['username' => $this->session->userdata('username')])->row_array();
         $data['produk'] = $this->produk_model->get_all_produk();
+        $data['nota'] = $this->order_model->getnomornota();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar', $data);
@@ -83,16 +84,18 @@ class Order extends CI_Controller
         $total = $this->cart->total();
         $uangbayar = $this->input->post('uangbayar');
 
-        if ($uangbayar < $total) {
+        if (($uangbayar < $total) || $total < 1 || $uangbayar < 1) {
             $this->session->set_flashdata('message', 'Uang Kurang');
+            redirect('Order');
         } else {
-            $data_order = array(
-                'jumlah_uang' => $this->input->post('uangbayar'),
-                'tanggal' => date('Y-m-d H:i:s')
-            );
-            $id_order = $this->order_model->tambah_order($data_order);
-
             if ($cart = $this->cart->contents()) {
+                $nomornota = $this->order_model->getnomornota();
+                $data_order = array(
+                    'jumlah_uang' => $this->input->post('uangbayar'),
+                    'nota' => $nomornota,
+                    'tanggal' => date('Y-m-d H:i:s')
+                );
+                $id_order = $this->order_model->tambah_order($data_order);
                 foreach ($cart as $item) {
                     $data_detail = array(
                         'transaksi_id' => $id_order,
@@ -109,9 +112,8 @@ class Order extends CI_Controller
                 }
             }
             $this->session->set_flashdata('message', 'Berhasil Belanja');
+            $this->cart->destroy();
+            redirect('Order');
         }
-        //-------------------------Hapus shopping cart--------------------------		
-        $this->cart->destroy();
-        redirect('Order');
     }
 }

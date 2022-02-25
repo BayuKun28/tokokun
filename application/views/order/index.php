@@ -11,7 +11,10 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Menu Transaksi
+                        <div class="row">
+                            <div class="col-md-6">Menu Transaksi</div>
+                            <div class="col-md-6 text-right">Nomor Nota : <?= $nota; ?></div>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -20,23 +23,31 @@
                                 <div class="row">
                                     <?php foreach ($produk as $row) : ?>
                                         <div class="col-md-4">
-                                            <div class="thumbnail">
+                                            <div class="thumbnail container-fluid">
                                                 <div class="">
-                                                    <h4><?php echo $row->nama_produk; ?></h4>
+                                                    <center>
+                                                        <strong>
+                                                            <h4><?php echo $row->nama_produk; ?></h4>
+                                                        </strong>
+                                                    </center>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <h5>Stok : <?php echo $row->stok; ?></h5>
+                                                            <center>
+                                                                <h5> <i class=" fa fa-fw fa-truck"></i>Stok : <?php echo $row->stok; ?></h5>
+                                                            </center>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-7">
-                                                            <h4><?php echo 'Rp ' . number_format($row->harga); ?></h4>
+                                                            <center>
+                                                                <h4><?php echo 'Rp ' . number_format($row->harga); ?></h4>
+                                                            </center>
                                                         </div>
                                                         <div class="col-md-5">
                                                             <input type="number" name="quantity" id="<?php echo $row->id; ?>" value="1" class="quantity form-control">
                                                         </div>
                                                     </div>
-                                                    <button class="add_cart btn btn-success btn-block" data-produk_id="<?php echo $row->id; ?>" data-nama_produk="<?php echo $row->nama_produk; ?>" data-harga="<?php echo $row->harga; ?>">
+                                                    <button class="add_cart btn btn-success btn-block" data-produk_id="<?php echo $row->id; ?>" data-nama_produk="<?php echo $row->nama_produk; ?>" data-harga="<?php echo $row->harga; ?>" data-stok="<?php echo $row->stok; ?>">
                                                         <i class=" fa fa-fw fa-shopping-bag"></i> Add To Cart</button>
                                                 </div>
                                             </div>
@@ -47,22 +58,6 @@
 
                             </div>
                             <div class="col-md-4">
-                                <h4>Keranjang Belanja</h4>
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Produk</th>
-                                            <th>Harga</th>
-                                            <th>Qty</th>
-                                            <th>Subtotal</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="detail_cart">
-
-                                    </tbody>
-
-                                </table>
                                 <form class="form-horizontal" action="<?php echo base_url() ?>Order/proses_order" method="post" name="frmCO" id="frmCO">
                                     <div class="row">
                                         <div class="col-md-8">
@@ -80,6 +75,23 @@
                                         </div>
                                     </div>
                                 </form>
+                                <h4>Keranjang Belanja</h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Produk</th>
+                                            <th>Harga</th>
+                                            <th>Qty</th>
+                                            <th>Subtotal</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detail_cart">
+
+                                    </tbody>
+
+                                </table>
+
                             </div>
                         </div>
                     </div>
@@ -129,21 +141,27 @@
         $('.add_cart').click(function() {
             var produk_id = $(this).data("produk_id");
             var nama_produk = $(this).data("nama_produk");
+            var stok = $(this).data("stok");
             var harga = $(this).data("harga");
             var qty = $('#' + produk_id).val();
-            $.ajax({
-                url: "<?php echo base_url(); ?>Order/add_to_cart",
-                method: "POST",
-                data: {
-                    produk_id: produk_id,
-                    nama_produk: nama_produk,
-                    harga: harga,
-                    qty: qty
-                },
-                success: function(data) {
-                    $('#detail_cart').html(data);
-                }
-            });
+
+            if (qty > stok) {
+                alert('Stok Kurang');
+            } else {
+                $.ajax({
+                    url: "<?php echo base_url(); ?>Order/add_to_cart",
+                    method: "POST",
+                    data: {
+                        produk_id: produk_id,
+                        nama_produk: nama_produk,
+                        harga: harga,
+                        qty: qty
+                    },
+                    success: function(data) {
+                        $('#detail_cart').html(data);
+                    }
+                });
+            }
         });
 
         $('#uangbayar').keyup(function() {
