@@ -58,6 +58,7 @@ class Order extends CI_Controller
 			<tr>
 				<th colspan="3">Total</th>
 				<th colspan="2">' . 'Rp ' . number_format($this->cart->total()) . '</th>
+                <th hidden> <input type="text" name="sumtotal" id="sumtotal" value="' . $this->cart->total() . '" > </th>
 			</tr>
             
 		';
@@ -79,26 +80,35 @@ class Order extends CI_Controller
 
     public function proses_order()
     {
-        $data_order = array(
-            'tanggal' => date('Y-m-d H:i:s')
-        );
-        $id_order = $this->order_model->tambah_order($data_order);
+        $total = $this->cart->total();
+        $uangbayar = $this->input->post('uangbayar');
 
-        if ($cart = $this->cart->contents()) {
-            foreach ($cart as $item) {
-                $data_detail = array(
-                    'transaksi_id' => $id_order,
-                    'produk' => $item['id'],
-                    'qty' => $item['qty'],
-                    'harga' => $item['price']
-                );
-                $id = $item['id'];
-                $jumlah = $item['qty'];
-                $stok = $this->stok_keluar_model->getStok($id)->stok;
-                $rumus = max($stok - $jumlah, 0);
-                $addStok = $this->stok_keluar_model->addStok($id, $rumus);
-                $proses = $this->order_model->tambah_detail_order($data_detail);
+        if ($uangbayar < $total) {
+            $this->session->set_flashdata('message', 'Uang Kurang');
+        } else {
+            $data_order = array(
+                'jumlah_uang' => $this->input->post('uangbayar'),
+                'tanggal' => date('Y-m-d H:i:s')
+            );
+            $id_order = $this->order_model->tambah_order($data_order);
+
+            if ($cart = $this->cart->contents()) {
+                foreach ($cart as $item) {
+                    $data_detail = array(
+                        'transaksi_id' => $id_order,
+                        'produk' => $item['id'],
+                        'qty' => $item['qty'],
+                        'harga' => $item['price']
+                    );
+                    $id = $item['id'];
+                    $jumlah = $item['qty'];
+                    $stok = $this->stok_keluar_model->getStok($id)->stok;
+                    $rumus = max($stok - $jumlah, 0);
+                    $addStok = $this->stok_keluar_model->addStok($id, $rumus);
+                    $proses = $this->order_model->tambah_detail_order($data_detail);
+                }
             }
+            $this->session->set_flashdata('message', 'Berhasil Belanja');
         }
         //-------------------------Hapus shopping cart--------------------------		
         $this->cart->destroy();

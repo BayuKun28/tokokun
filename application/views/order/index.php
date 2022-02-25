@@ -21,7 +21,7 @@
                                     <?php foreach ($produk as $row) : ?>
                                         <div class="col-md-4">
                                             <div class="thumbnail">
-                                                <div class="caption">
+                                                <div class="">
                                                     <h4><?php echo $row->nama_produk; ?></h4>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -64,7 +64,21 @@
 
                                 </table>
                                 <form class="form-horizontal" action="<?php echo base_url() ?>Order/proses_order" method="post" name="frmCO" id="frmCO">
-                                    <button type="submit" class="btn btn-primary pull-right">Proses Order</button>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="number" placeholder="Jumlah Uang Bayar" class="form-control" id="uangbayar" name="uangbayar">
+                                        </div>
+                                        <div class=" col-md-4">
+                                            <button type="submit" class="btn btn-primary pull-right">Proses Order</button>
+                                        </div>
+                                    </div>
+                                    </br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="hasilkembalian">Kembalian :</label>
+                                            <input class="form-control" readonly type="number" name="hasilkembalian" id="hasilkembalian" placeholder="Kembalian">
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -112,7 +126,6 @@
 
         });
 
-
         $('.add_cart').click(function() {
             var produk_id = $(this).data("produk_id");
             var nama_produk = $(this).data("nama_produk");
@@ -132,11 +145,27 @@
                 }
             });
         });
-        // Load shopping cart
+
+        $('#uangbayar').keyup(function() {
+            var txtFirstNumberValue = document.getElementById('uangbayar').value;
+            var txtSecondNumberValue = document.getElementById('sumtotal').value;
+            var result = parseInt(txtFirstNumberValue) - parseInt(txtSecondNumberValue);
+
+            if (result < 0) {
+                document.getElementById('hasilkembalian').value = 0;
+            } else {
+                if (!isNaN(result)) {
+                    document.getElementById('hasilkembalian').value = result;
+                }
+            }
+
+
+        });
+
         $('#detail_cart').load("<?php echo base_url(); ?>Order/load_cart");
-        //Hapus Item Cart
+
         $(document).on('click', '.hapus_cart', function() {
-            var row_id = $(this).attr("id"); //mengambil row_id dari artibut id
+            var row_id = $(this).attr("id");
             $.ajax({
                 url: "<?php echo base_url(); ?>Order/hapus_cart",
                 method: "POST",
@@ -153,38 +182,28 @@
 <?php
 if (!empty($this->session->flashdata('message'))) {
     $pesan = $this->session->flashdata('message');
-    if ($pesan == "Berhasil Ditambah") {
+    if ($pesan == "Berhasil Belanja") {
         $script = "
                     <script>
                             Swal.fire({
                               icon: 'success',
                               title: 'Data',
-                              text: 'Data Berhasil Ditambah'
+                              text: 'Berhasil Belanja'
                             }) 
                     </script>
                 ";
-    } elseif ($pesan == "Berhasil Dihapus") {
+    } elseif ($pesan == "Uang Kurang") {
         // die($pesan);
         $script = "
                     <script>
                             Swal.fire({
-                              icon: 'success',
-                              title: 'Data',
-                              text: 'Berhasil Dihapus'
+                            icon: 'error',
+                            title: 'Data',
+                            text: 'Uang Kurang'
                             }) 
+
                     </script>
-                ";
-    } elseif ($pesan == "Berhasil Di Update") {
-        // die($pesan);
-        $script = "
-                    <script>
-                            Swal.fire({
-                              icon: 'success',
-                              title: 'Data',
-                              text: 'Berhasil Di Update'
-                            }) 
-                    </script>
-                ";
+                        ";
     } else {
         $script =
             "

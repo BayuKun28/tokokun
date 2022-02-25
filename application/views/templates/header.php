@@ -48,7 +48,7 @@
         <![endif]-->
     <style>
         @media(max-width: 576px) {
-            .nota {
+            .notaorder {
                 justify-content: center !important;
                 text-align: center !important;
             }
