@@ -93,7 +93,8 @@ class Order extends CI_Controller
                 $data_order = array(
                     'jumlah_uang' => $this->input->post('uangbayar'),
                     'nota' => $nomornota,
-                    'tanggal' => date('Y-m-d H:i:s')
+                    'tanggal' => date('Y-m-d H:i:s'),
+                    'kasir' => $this->session->userdata('id')
                 );
                 $id_order = $this->order_model->tambah_order($data_order);
                 foreach ($cart as $item) {
@@ -113,7 +114,21 @@ class Order extends CI_Controller
             }
             $this->session->set_flashdata('message', 'Berhasil Belanja');
             $this->cart->destroy();
-            redirect('Order');
+
+            redirect('Order/cetak');
         }
+    }
+
+    public function cetak()
+    {
+        $data['produk'] = $this->order_model->getlistnota();
+        $data['tanggal'] = date('Y-m-d H:i:s');
+        $data['nota'] = $this->order_model->getnotacetak();
+        $data['total'] = $this->order_model->totalcetak();
+        $bayar = $this->order_model->getbayar();
+        $data['bayar'] = $this->order_model->getbayar();
+        $totalharga = $this->order_model->totalcetak();
+        $data['kembalian'] = $bayar - $totalharga;
+        $this->load->view('order/cetak', $data);
     }
 }

@@ -13,7 +13,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6">Menu Transaksi</div>
-                            <div class="col-md-6 text-right">Nomor Nota : <?= $nota; ?></div>
+                            <div class="col-md-6 text-right"><b>Nomor Nota : <?= $nota; ?></b></div>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -210,6 +210,7 @@ if (!empty($this->session->flashdata('message'))) {
                             }) 
                     </script>
                 ";
+        redirect('Order/cetak');
     } elseif ($pesan == "Uang Kurang") {
         // die($pesan);
         $script = "
