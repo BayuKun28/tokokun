@@ -24,6 +24,7 @@
                                     <?php foreach ($produk as $row) : ?>
                                         <div class="col-md-4">
                                             <div class="thumbnail container-fluid">
+                                                <img width="150" src="<?= base_url('assets\photos\default.png');  ?>">
                                                 <div class="">
                                                     <center>
                                                         <strong>
@@ -61,7 +62,7 @@
                                 <form class="form-horizontal" action="<?php echo base_url() ?>Order/proses_order" method="post" name="frmCO" id="frmCO">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <input type="number" placeholder="Jumlah Uang Bayar" class="form-control" id="uangbayar" name="uangbayar">
+                                            <input type="text" placeholder="Jumlah Uang Bayar" class="form-control" id="uangbayar" name="uangbayar">
                                         </div>
                                         <div class=" col-md-4">
                                             <button type="submit" class="btn btn-primary pull-right">Proses Order</button>
@@ -71,7 +72,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label for="hasilkembalian">Kembalian :</label>
-                                            <input class="form-control" readonly type="number" name="hasilkembalian" id="hasilkembalian" placeholder="Kembalian">
+                                            <input class="form-control" readonly type="text" name="hasilkembalian" id="hasilkembalian" placeholder="Kembalian">
                                         </div>
                                     </div>
                                 </form>
@@ -138,6 +139,7 @@
 
         });
 
+
         $('.add_cart').click(function() {
             var produk_id = $(this).data("produk_id");
             var nama_produk = $(this).data("nama_produk");
@@ -164,10 +166,15 @@
             }
         });
 
+        $('#uangbayar').mask('#,##0,000', {
+            reverse: true
+        });
+
         $('#uangbayar').keyup(function() {
             var txtFirstNumberValue = document.getElementById('uangbayar').value;
+            var value1 = txtFirstNumberValue.replace(",", "").replace(",", "");
             var txtSecondNumberValue = document.getElementById('sumtotal').value;
-            var result = parseInt(txtFirstNumberValue) - parseInt(txtSecondNumberValue);
+            var result = parseInt(value1) - parseInt(txtSecondNumberValue);
 
             if (result < 0) {
                 document.getElementById('hasilkembalian').value = 0;
@@ -175,7 +182,11 @@
                 if (!isNaN(result)) {
                     document.getElementById('hasilkembalian').value = result;
                 }
+                $('#hasilkembalian').mask('#,##0,000', {
+                    reverse: true
+                });
             }
+
 
 
         });

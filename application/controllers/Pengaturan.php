@@ -1,30 +1,38 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller
+class Pengaturan extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
         if ($this->session->userdata('status') !== 'login') {
             redirect('/');
         }
-        $this->load->model('laporan_penjualan_model');
     }
+
     public function index()
     {
-        $data['title'] = 'Dashboard';
+        $data['title'] = 'Laporan Stok Masuk';
         $data['user'] = $this->db->get_where('pengguna', ['username' => $this->session->userdata('username')])->row_array();
-
-        $xtanggalawal = date('Y/m/1');
-        $xtanggalakhir = date('Y/m/t');
-
-        $data['untung'] = $this->laporan_penjualan_model->labauntung($xtanggalawal, $xtanggalakhir)->untung;
-        $data['laba'] = $this->laporan_penjualan_model->labauntung($xtanggalawal, $xtanggalakhir)->laba;
-
+        $toko = $this->db->get('toko')->row();
+        $data['toko'] = $toko;
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('templates/sidebar', $data);
-        $this->load->view('dashboard/index', $data);
+        $this->load->view('pengaturan/index', $data);
+    }
+
+    public function edit()
+    {
+        $data = array(
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat')
+        );
+        $this->db->where('id', 1);
+        $this->db->update('toko', $data);
+        $this->session->set_flashdata('message', 'Berhasil Di Update');
+        redirect('Pengaturan');
     }
 }

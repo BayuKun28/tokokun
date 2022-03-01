@@ -82,7 +82,8 @@ class Order extends CI_Controller
     public function proses_order()
     {
         $total = $this->cart->total();
-        $uangbayar = $this->input->post('uangbayar');
+        $uangbayar1 = $this->input->post('uangbayar');
+        $uangbayar = str_replace(',', '', $uangbayar1);
 
         if (($uangbayar < $total) || $total < 1 || $uangbayar < 1) {
             $this->session->set_flashdata('message', 'Uang Kurang');
@@ -91,7 +92,7 @@ class Order extends CI_Controller
             if ($cart = $this->cart->contents()) {
                 $nomornota = $this->order_model->getnomornota();
                 $data_order = array(
-                    'jumlah_uang' => $this->input->post('uangbayar'),
+                    'jumlah_uang' => $uangbayar,
                     'nota' => $nomornota,
                     'tanggal' => date('Y-m-d H:i:s'),
                     'kasir' => $this->session->userdata('id')

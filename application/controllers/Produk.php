@@ -40,13 +40,18 @@ class Produk extends CI_Controller
 
     public function addproduk()
     {
+        $harga1 = $this->input->post('harga');
+        $harga = str_replace(',', '', $harga1);
+        $harga_modal1 = $this->input->post('harga_modal');
+        $harga_modal = str_replace(',', '', $harga_modal1);
+
         $data = array(
             'barcode' => $this->input->post('barcode'),
             'nama_produk' => $this->input->post('nama_produk'),
             'kategori' => $this->input->post('kategori'),
             'satuan' => $this->input->post('satuan'),
-            'harga' => $this->input->post('harga'),
-            'harga_modal' => $this->input->post('harga_modal'),
+            'harga' => $harga,
+            'harga_modal' => $harga_modal,
             'stok' => $this->input->post('stok'),
             'terjual' => '0'
         );
@@ -68,13 +73,17 @@ class Produk extends CI_Controller
     public function editproduk()
     {
         $id = $this->input->post('idedit');
+        $harga1 = $this->input->post('hargaedit');
+        $harga = str_replace(',', '', $harga1);
+        $harga_modal1 = $this->input->post('harga_modaledit');
+        $harga_modal = str_replace(',', '', $harga_modal1);
         $data = array(
             'barcode' => $this->input->post('barcodeedit'),
             'nama_produk' => $this->input->post('nama_produkedit'),
             'kategori' => $this->input->post('kategoriedit'),
             'satuan' => $this->input->post('satuanedit'),
-            'harga' => $this->input->post('hargaedit'),
-            'harga_modal' => $this->input->post('harga_modaledit'),
+            'harga' => $harga,
+            'harga_modal' => $harga_modal,
             'stok' => $this->input->post('stokedit')
         );
         $this->db->where('id', $id);

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Laporan Penjualan</h1>
+                <h1 class="page-header">Laporan Stok Keluar</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -12,31 +12,11 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-10"><b>Data Laporan Penjualan</b></div>
-                            <div class="col-md-2">
-                                <table>
-                                    <tr>
-                                        <td> <b>Laba </b></td>
-                                        <td> <b> : </b></td>
-                                        <td> <b>Rp. </b></td>
-                                        <td align="right">
-                                            <b><?= number_format($laba); ?></b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> <b>Untung </b></td>
-                                        <td> <b> : </b></td>
-                                        <td> <b>Rp. </b></td>
-                                        <td align="right">
-                                            <b><?= number_format($untung); ?></b>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                            <div class="col-md-10"><b>Data Laporan Stok Keluar</b></div>
                         </div>
                     </div>
                     <div class="panel-heading">
-                        <form method="post" action="<?= base_url('laporan_penjualan') ?>" class="row">
+                        <form method="post" action="<?= base_url('laporan_stok_keluar') ?>" class="row">
                             <div class="form-group col-md-2">
                                 <input type="text" id="tanggalawal" name="tanggalawal" autocomplete="off" class="form-control" value="<?= $tanggalawal ?>">
                             </div>
@@ -48,7 +28,7 @@
                             </div>
                             <div class="form-group col-md-4 align-items-end">
                                 <button name="action" value="tampil" type="submit" class="btn btn-success btn-col-1 " role="button" aria-disabled="true">Tampilkan</button>
-                                <a href="<?= base_url('laporan_penjualan/cetak?tglawal=') . $tanggalawal . '&tglakhir=' . $tanggalakhir; ?>" name="cetak" class="btn btn-danger btn-col-1" target="_blank" role="button" aria-disabled="true"><i class="fa fa-balance-scale fa-fw"></i>Cetak</a>
+                                <a href="<?= base_url('laporan_stok_keluar/cetak?tglawal=') . $tanggalawal . '&tglakhir=' . $tanggalakhir; ?>" name="cetak" class="btn btn-danger btn-col-1" target="_blank" role="button" aria-disabled="true"><i class="fa fa-balance-scale fa-fw"></i>Cetak</a>
                             </div>
                         </form>
                     </div>
@@ -62,32 +42,22 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Tanggal</th>
-                                    <th>Nota</th>
+                                    <th>Barcode</th>
                                     <th>Nama Produk</th>
-                                    <th>Total Bayar</th>
-                                    <th>Jumlah Uang</th>
-                                    <th>Diskon</th>
-                                    <th>Pelanggan</th>
-                                    <th>Kasir</th>
-                                    <th>Actions</th>
+                                    <th>Jumlah</th>
+                                    <th>Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                <?php foreach ($penjualan as $s) : ?>
+                                <?php foreach ($stok as $s) : ?>
                                     <tr>
                                         <td><?= $i; ?></td>
                                         <td><?= $s['tanggal']; ?></td>
-                                        <td><?= $s['nota']; ?></td>
+                                        <td><?= $s['barcode']; ?></td>
                                         <td><?= $s['nama_produk']; ?></td>
-                                        <td><?= number_format($s['total_bayar']); ?></td>
-                                        <td><?= number_format($s['jumlah_uang']); ?></td>
-                                        <td><?= $s['diskon']; ?></td>
-                                        <td><?= $s['pelanggan']; ?></td>
-                                        <td><?= $s['kasir']; ?></td>
-                                        <td>
-                                            <a data-kode="<?= $s['id']; ?>" href='javascript:void(0)' class="del_transaksi btn btn-danger   btn-xs">delete</a>
-                                        </td>
+                                        <td><?= $s['jumlah']; ?></td>
+                                        <td><?= $s['keterangan']; ?></td>
                                     </tr>
                                     <?php $i++; ?>
                                 <?php endforeach ?>
@@ -131,27 +101,6 @@
     $(document).ready(function() {
         $('#tablelaporanpenjualan').DataTable({
             responsive: true
-        });
-    });
-
-    $(document).on('click', '.del_transaksi', function(event) {
-        event.preventDefault();
-        let kode = $(this).attr('data-kode');
-        let delete_url = "<?= base_url(); ?>/Laporan_penjualan/delete/" + kode;
-
-        Swal.fire({
-            title: 'Hapus Data',
-            text: "Apakah Anda Yakin Ingin Menghapus Data Ini?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal'
-        }).then(async (result) => {
-            if (result.value) {
-                window.location.href = delete_url;
-            }
         });
     });
 </script>

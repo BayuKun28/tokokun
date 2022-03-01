@@ -41,8 +41,8 @@
                                             <td><?= $s['nama_produk']; ?></td>
                                             <td><?= $s['satuan']; ?></td>
                                             <td><?= $s['kategori']; ?></td>
-                                            <td><?= $s['harga_modal']; ?></td>
-                                            <td><?= $s['harga']; ?></td>
+                                            <td><?= number_format($s['harga_modal']); ?></td>
+                                            <td><?= number_format($s['harga']); ?></td>
                                             <td><?= $s['stok']; ?></td>
                                             <td>
                                                 <a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modaleditproduk" data-idedit="<?= $s['id']; ?>" data-barcodeedit="<?= $s['barcode']; ?>" data-nama_produkedit="<?= $s['nama_produk']; ?>" data-satuanedit="<?= $s['satuan']; ?>" data-kdsatuanedit="<?= $s['kdsatuan']; ?>" data-kategoriedit="<?= $s['kategori']; ?>" data-kdkategoriedit="<?= $s['kdkategori']; ?>" data-harga_modaledit="<?= $s['harga_modal']; ?>" data-hargaedit="<?= $s['harga']; ?>" data-stokedit="<?= $s['stok']; ?>" name="editproduk" id="editproduk">edit</a>
@@ -101,11 +101,11 @@
                     </div>
                     <div class="form-group">
                         <label>Harga Modal</label>
-                        <input type="text" class="form-control" placeholder="Harga Modal" name="harga_modaledit" id="harga_modaledit" required>
+                        <input type="text" class="form-control harga_modaledit" placeholder="Harga Modal" name="harga_modaledit" id="harga_modaledit" required>
                     </div>
                     <div class="form-group">
                         <label>Harga Jual</label>
-                        <input type="text" class="form-control" placeholder="Harga Jual" name="hargaedit" id="hargaedit" required>
+                        <input type="text" class="form-control hargaedit" placeholder="Harga Jual" name="hargaedit" id="hargaedit" required>
                     </div>
                     <div class="form-group">
                         <label>Stok</label>
@@ -176,6 +176,12 @@
         });
     });
 
+    $('#harga').mask('#.##0,000', {
+        reverse: true
+    });
+    $('#harga_modal').mask('#.##0,000', {
+        reverse: true
+    });
 
     $('.itemSatuan').select2({
         width: '100%',
@@ -302,6 +308,14 @@
             $('#harga_modaledit').val(harga_modaledit);
             $('#hargaedit').val(hargaedit);
             $('#stokedit').val(stokedit);
+
+            $('#hargaedit').mask('#.##0,000', {
+                reverse: true
+            });
+            $('#harga_modaledit').mask('#.##0,000', {
+                reverse: true
+            });
+
 
             var $hasilsatuan = $("<option selected='selected'></option>").val(kdsatuanedit).text(satuanedit)
             $("#satuanedit").append($hasilsatuan).trigger('change');

@@ -7,15 +7,17 @@
 </head>
 
 <body>
-    <div style="width: 500px; margin: auto;">
+    <div style="width: 150px; margin: auto;">
         <br>
         <center>
             <?php echo $this->session->userdata('toko')->nama; ?><br>
             <?php echo $this->session->userdata('toko')->alamat; ?><br><br>
             <table width="100%">
                 <tr>
-                    <td><?php echo $nota ?></td>
-                    <td align="right"><?php echo $tanggal ?></td>
+                    <td align="center"><?php echo $nota ?></td>
+                </tr>
+                <tr>
+                    <td align="center"><?php echo $tanggal ?></td>
                 </tr>
             </table>
             <hr>

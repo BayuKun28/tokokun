@@ -24,3 +24,5 @@
 <script src="<?= base_url('assets/'); ?>js/select2.min.js"></script>
 
 <script src="<?= base_url('assets/'); ?>datepicker/jquery.datetimepicker.full.js"></script>
+
+<script src="<?= base_url('assets/') ?>jquery-mask/jquery.mask.js"></script>
