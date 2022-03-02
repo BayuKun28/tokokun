@@ -20,46 +20,51 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="row">
+                                    <div class="col-md-4">
+                                        <h4>Produk</h4>
+                                    </div>
+                                    <div class="col-md-4 pull-right">
+                                        <input type="text" class="form-control" name="search_text" id="search_text" autofocus="" placeholder="Cari">
+                                    </div>
                                 </div>
-                                <?php $this->session->flashdata('message');  ?>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover" id="tableproduk">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama</th>
-                                                <th>Stok</th>
-                                                <th>Harga</th>
-                                                <th>Qty</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $i = 1; ?>
-                                            <?php foreach ($produk as $row) : ?>
-                                                <tr>
-                                                    <td><?= $i; ?></td>
-                                                    <td><?php echo $row->nama_produk; ?></td>
-                                                    <td><?php echo $row->stok; ?></td>
-                                                    <td><?php echo 'Rp ' . number_format($row->harga); ?></td>
-                                                    <td>
-                                                        <div class="row">
-                                                            <div class="col-md-2">
-                                                                <input type="number" name="quantity" id="<?php echo $row->id; ?>" value="1" class="quantity form-control">
-                                                            </div>
+                                <div class="row panel">
+                                    <?php foreach ($produk as $row) : ?>
+                                        <div class="col-md-4">
+                                            <div class="thumbnail container-fluid">
+                                                <img width="150" src="<?= base_url('assets\photos\default.png');  ?>">
+                                                <div class="">
+                                                    <center>
+                                                        <strong>
+                                                            <h4><?php echo $row->nama_produk; ?></h4>
+                                                        </strong>
+                                                    </center>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <center>
+                                                                <h5> <i class=" fa fa-fw fa-truck"></i>Stok : <?php echo $row->stok; ?></h5>
+                                                            </center>
                                                         </div>
-                                                    </td>
-                                                    <td><button class="add_cart btn btn-success" data-produk_id="<?php echo $row->id; ?>" data-nama_produk="<?php echo $row->nama_produk; ?>" data-harga="<?php echo $row->harga; ?>" data-stok="<?php echo $row->stok; ?>">
-                                                            <i class=" fa fa-fw fa-shopping-bag"></i> Add</button></td>
-                                                </tr>
-                                                <?php $i++; ?>
-                                            <?php endforeach ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-7">
+                                                            <center>
+                                                                <h4><?php echo 'Rp ' . number_format($row->harga); ?></h4>
+                                                            </center>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input type="number" name="quantity" id="<?php echo $row->id; ?>" value="1" class="quantity form-control">
+                                                        </div>
+                                                    </div>
+                                                    <button class="add_cart btn btn-success btn-block" data-produk_id="<?php echo $row->id; ?>" data-nama_produk="<?php echo $row->nama_produk; ?>" data-harga="<?php echo $row->harga; ?>" data-stok="<?php echo $row->stok; ?>">
+                                                        <i class=" fa fa-fw fa-shopping-bag"></i> Add To Cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
 
-                            <!-- /.table-responsive -->
+                                </div>
+
+                            </div>
                             <div class="col-md-4">
                                 <form class="form-horizontal" action="<?php echo base_url() ?>Order/proses_order" method="post" name="frmCO" id="frmCO">
                                     <div class="row">
@@ -92,13 +97,15 @@
                                     <tbody id="detail_cart">
 
                                     </tbody>
+
                                 </table>
+
                             </div>
                         </div>
-                        <!-- /.table-responsive -->
                     </div>
-                    <!-- end off cart -->
+                    <!-- /.table-responsive -->
                 </div>
+                <!-- end off cart -->
             </div>
             <!-- /.panel -->
         </div>
@@ -120,13 +127,13 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
     $(document).ready(function() {
-
         $('#tableproduk').DataTable({
+            "columnDefs": [{
+                "width": "5",
+                "targets": 0
+            }],
             fixedColumns: true,
-            responsive: true,
-            "paging": false,
-            "scrollY": "300px",
-            "scrollCollapse": true,
+            responsive: true
 
         });
         $('#tablecart').DataTable({
@@ -140,12 +147,13 @@
         });
 
 
-        $('.add_cart').click(function() {
+        $('#add_cart').click(function() {
             var produk_id = $(this).data("produk_id");
             var nama_produk = $(this).data("nama_produk");
             var stok = $(this).data("stok");
             var harga = $(this).data("harga");
             var qty = $('#' + produk_id).val();
+
             if (qty > stok) {
                 alert('Stok Kurang');
             } else {

@@ -5,7 +5,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">TokoKun</a>
+                <a class="navbar-brand" href="<?= base_url('Dashboard'); ?>"><?php echo $this->session->userdata('toko')->nama; ?></a>
             </div>
 
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

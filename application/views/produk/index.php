@@ -176,10 +176,10 @@
         });
     });
 
-    $('#harga').mask('#.##0,000', {
+    $('#harga').mask('#,##0,000', {
         reverse: true
     });
-    $('#harga_modal').mask('#.##0,000', {
+    $('#harga_modal').mask('#,##0,000', {
         reverse: true
     });
 
@@ -309,10 +309,10 @@
             $('#hargaedit').val(hargaedit);
             $('#stokedit').val(stokedit);
 
-            $('#hargaedit').mask('#.##0,000', {
+            $('#hargaedit').mask('#,##0,000', {
                 reverse: true
             });
-            $('#harga_modaledit').mask('#.##0,000', {
+            $('#harga_modaledit').mask('#,##0,000', {
                 reverse: true
             });
 

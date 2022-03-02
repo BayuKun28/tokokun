@@ -28,6 +28,7 @@ class Order extends CI_Controller
         $this->load->view('templates/sidebar', $data);
         $this->load->view('order/index', $data);
     }
+
     function add_to_cart()
     {
         $data = array(
