@@ -24,6 +24,7 @@
                                         <th>No</th>
                                         <th>Tanggal</th>
                                         <th>Barcode</th>
+                                        <th>Kode Produk</th>
                                         <th>Nama Produk</th>
                                         <th>Jumlah</th>
                                         <th>Keterangan</th>
@@ -35,6 +36,14 @@
                                         <tr>
                                             <td><?= $i; ?></td>
                                             <td><?= $s['tanggal']; ?></td>
+                                            <td>
+                                                <?php
+                                                $kode = $s['barcode'];
+                                                require_once('assets/qrcode/qrlib.php');
+                                                QRcode::png($kode, "files/qrcode/kode" . $i . ".png", "M", 2, 2);
+                                                ?>
+                                                <img src="<?= base_url(); ?>files/qrcode/kode<?= $i ?>.png" alt="">
+                                            </td>
                                             <td><?= $s['barcode']; ?></td>
                                             <td><?= $s['nama_produk']; ?></td>
                                             <td><?= $s['jumlah']; ?></td>

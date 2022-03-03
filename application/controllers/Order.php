@@ -29,6 +29,14 @@ class Order extends CI_Controller
         $this->load->view('order/index', $data);
     }
 
+    public function getprodukscan()
+    {
+        $bar = $this->input->post('barcode');
+        $this->load->model('produk_model', 'produk');
+        $cari = $this->produk->getprodukauto($bar)->result();
+        echo json_encode($cari);
+    }
+
     function add_to_cart()
     {
         $data = array(

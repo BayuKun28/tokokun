@@ -13,11 +13,19 @@
             <?php echo $this->session->userdata('toko')->nama; ?><br>
             <?php echo $this->session->userdata('toko')->alamat; ?><br><br>
             <table width="100%">
-                <tr>
+                <!-- <tr>
                     <td align="center"><?php echo $nota ?></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td align="center"><?php echo $tanggal ?></td>
+                </tr>
+                <tr>
+                    <?php
+                    $kode = $nota;
+                    require_once('assets/qrcode/qrlib.php');
+                    QRcode::png($kode, "files/qrcode/kode" . $nota . ".png", "M", 2, 2);
+                    ?>
+                    <img src="<?= base_url(); ?>files/qrcode/kode<?= $nota ?>.png" alt="">
                 </tr>
             </table>
             <hr>

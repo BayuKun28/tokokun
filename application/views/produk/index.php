@@ -23,6 +23,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Barcode</th>
+                                        <th>Kode Produk</th>
                                         <th>Nama</th>
                                         <th>Satuan</th>
                                         <th>Kategori</th>
@@ -37,6 +38,14 @@
                                     <?php foreach ($produk as $s) : ?>
                                         <tr>
                                             <td><?= $i; ?></td>
+                                            <td>
+                                                <?php
+                                                $kode = $s['barcode'];
+                                                require_once('assets/qrcode/qrlib.php');
+                                                QRcode::png($kode, "files/qrcode/kode" . $i . ".png", "M", 2, 2);
+                                                ?>
+                                                <img src="<?= base_url(); ?>files/qrcode/kode<?= $i ?>.png" alt="">
+                                            </td>
                                             <td><?= $s['barcode']; ?></td>
                                             <td><?= $s['nama_produk']; ?></td>
                                             <td><?= $s['satuan']; ?></td>

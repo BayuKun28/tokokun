@@ -23,6 +23,12 @@ class Produk_model extends CI_Model
         echo json_encode($query);
     }
 
+    public function getprodukauto($barcode)
+    {
+        $this->db->where("barcode", $barcode);
+        return $this->db->get("produk");
+    }
+
     function get_all_produk()
     {
         $query = "SELECT p.id,p.barcode,

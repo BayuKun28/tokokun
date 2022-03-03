@@ -26,3 +26,7 @@
 <script src="<?= base_url('assets/'); ?>datepicker/jquery.datetimepicker.full.js"></script>
 
 <script src="<?= base_url('assets/') ?>jquery-mask/jquery.mask.js"></script>
+
+<script type="text/javascript" src="<?= base_url('assets/'); ?>scanqr/instascan.min.js"></script>
+<script type="text/javascript" src="<?= base_url('assets/'); ?>scanqr/adapter.min.js"></script>
+<script type="text/javascript" src="<?= base_url('assets/'); ?>scanqr/vue.min.js"></script>

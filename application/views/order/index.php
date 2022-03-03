@@ -19,10 +19,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-8">
-                                <div class="row">
-                                </div>
                                 <?php $this->session->flashdata('message');  ?>
                                 <div class="table-responsive">
+                                    <a class="scanproduk btn btn-primary" data-toggle="modal" data-target="#qrscanmodal">Scan Produk</a>
                                     <table class="table table-striped table-bordered table-hover" id="tableproduk">
                                         <thead>
                                             <tr>
@@ -114,6 +113,56 @@
 </div>
 <!-- /#wrapper -->
 
+<!-- modal -->
+<div class="modal fade" id="qrscanmodal" tabindex="-1" role="dialog" aria-labelledby="qrscanmodalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrscanmodalLabel">SCAN QR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="form-row">
+                        <div class="col">
+                            <video id="preview" width="100%" class="rounded"></video>
+                        </div>
+                    </div>
+                    <input type="hidden" class="form-control " placeholder="" id="text" name="text" readonly="true">
+                    <input type="hidden" class="form-control " placeholder="" id="idscan" name="idscan" readonly="true">
+                    <div>
+                        <b><label for="namascan">Nama Produk</label></b>
+                        <input type="text" class="form-control " placeholder="" id="namascan" name="namascan" readonly="true">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b><label for="hargascan">Harga</label></b>
+                            <input type="text" class="form-control " placeholder="" id="hargascan" name="hargascan" readonly="true">
+                        </div>
+                        <div class="col-md-3">
+                            <b><label for="stokscan">Stok</label></b>
+                            <input type="text" class="form-control " placeholder="" id="stokscan" name="stokscan" readonly="true">
+                        </div>
+                        <div class="col-md-2">
+                            <b><label for="qty">Qty</label></b>
+                            <input type="number" name="quantityscan" id="quantityscan" value="1" class="quantity form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="add_cartscan btn btn-success">
+                    <i class=" fa fa-fw fa-shopping-bag"></i> Add</button>
+                <button type="button" class="closecam btn btn-secondary" data-dismiss="modal" id="closecam">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <?php $this->load->view('templates/_foot'); ?>
 
@@ -139,6 +188,48 @@
 
         });
 
+        $('.scanproduk').click(function() {
+            let scanner = new Instascan.Scanner({
+                video: document.getElementById('preview')
+            });
+
+            scanner.addListener('scan', function(content) {
+                // alert(content);
+                // window.open(document.getElementById('text').value=content);
+                document.getElementById('text').value = content;
+                var barcode = document.getElementById('text').value;
+                $.ajax({
+                    url: "<?php echo site_url('Order/getprodukscan'); ?>",
+                    type: "POST",
+                    data: '&barcode=' + barcode,
+                    success: function(data) {
+                        var hasil = JSON.parse(data);
+                        $.each(hasil, function(key, val) {
+                            document.getElementById('idscan').value = val.id;
+                            document.getElementById('namascan').value = val.nama_produk;
+                            document.getElementById('stokscan').value = val.stok;
+                            document.getElementById('hargascan').value = val.harga;
+                        });
+                    }
+                });
+            });
+
+            Instascan.Camera.getCameras().then(function(cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                } else {
+                    alert('No Cameras Found');
+                }
+
+            }).catch(function(e) {
+                console.error(e);
+            });
+            $('.closecam').click(function() {
+                scanner.stop();
+            });
+        });
+
+
 
         $('.add_cart').click(function() {
             var produk_id = $(this).data("produk_id");
@@ -163,6 +254,41 @@
                     }
                 });
             }
+        });
+
+        $('.add_cartscan').click(function() {
+            var produk_id = document.getElementById('idscan').value;
+            var nama_produk = document.getElementById('namascan').value;
+            var stok = document.getElementById('stokscan').value;
+            var harga = document.getElementById('hargascan').value;
+            var qty = document.getElementById('quantityscan').value;
+
+            var cekqty = parseInt(qty);
+            var cekstok = parseInt(stok);
+
+            if (cekqty > cekstok) {
+                alert('Stok Kurang');
+            } else {
+                $.ajax({
+                    url: "<?php echo base_url(); ?>Order/add_to_cart",
+                    method: "POST",
+                    data: {
+                        produk_id: produk_id,
+                        nama_produk: nama_produk,
+                        harga: harga,
+                        qty: qty
+                    },
+                    success: function(data) {
+                        $('#detail_cart').html(data);
+                    }
+                });
+                document.getElementById('idscan').value = '';
+                document.getElementById('namascan').value = '';
+                document.getElementById('stokscan').value = '';
+                document.getElementById('hargascan').value = '';
+                document.getElementById('quantityscan').value = '1';
+            }
+
         });
 
         $('#uangbayar').mask('#,##0,000', {
