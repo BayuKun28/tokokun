@@ -35,6 +35,7 @@ class Auth extends CI_Controller
                         'username' => $user['username'],
                         'role_id' => $user['role_id'],
                         'status' => 'login',
+                        'is_logged_in' => TRUE,
                         'toko' => $toko
                     ];
                     $this->session->set_userdata($data);
@@ -52,30 +53,16 @@ class Auth extends CI_Controller
             redirect('auth');
         }
     }
-    public function registration()
+    public function pengguna()
     {
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
-        $this->form_validation->set_rules('username', 'Username', 'required|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|trim');
+        $data['title'] = 'Pengguna';
+        $data['user'] = $this->db->get_where('pengguna', ['username' => $this->session->userdata('username')])->row_array();
+        $data['pengguna'] = $this->auth_model->read();
 
-        // if ($this->form_validation->run() == false) {
-        //     $this->load->view('templates/auth_header');
-        //     $this->load->view('auth/registration');
-        //     $this->load->view('templates/auth_footer');
-        // } else {
-        //     $data = [
-        //         'name' => htmlspecialchars($this->input->post('name', true)),
-        //         'email' => htmlspecialchars($this->input->post('email', true)),
-        //         'image' => 'default.jpg',
-        //         'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-        //         'role_id' => 2,
-        //         'is_active' => 1,
-        //         'date_created' => time()
-        //     ];
-        //     $this->db->insert('user', $data);
-        //     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Congratulation!, Your Account Has been Created</div>');
-        //     redirect('auth');
-        // }
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('auth/pengguna');
     }
     public function logout()
     {

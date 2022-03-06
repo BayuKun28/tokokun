@@ -62,6 +62,14 @@
                             <div class="col-md-4">
                                 <form class="form-horizontal" action="<?php echo base_url() ?>Order/proses_order" method="post" name="frmCO" id="frmCO">
                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="pelanggan">Pelanggan</label>
+                                            <select class="form-control itemPelanggan" id="pelanggan" name="pelanggan">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </br>
+                                    <div class="row">
                                         <div class="col-md-8">
                                             <input type="text" placeholder="Jumlah Uang Bayar" class="form-control" id="uangbayar" name="uangbayar">
                                         </div>
@@ -227,6 +235,32 @@
             $('.closecam').click(function() {
                 scanner.stop();
             });
+        });
+
+        $('.itemPelanggan').select2({
+            width: '100%',
+            ajax: {
+                url: "<?= base_url(); ?>/Pelanggan/getpelanggans2",
+                dataType: "json",
+                delay: 250,
+                data: function(params) {
+                    return {
+                        pel: params.term
+                    };
+                },
+                processResults: function(data) {
+                    var results = [];
+                    $.each(data, function(index, item) {
+                        results.push({
+                            id: item.id,
+                            text: item.nama
+                        });
+                    });
+                    return {
+                        results: results
+                    }
+                }
+            }
         });
 
 

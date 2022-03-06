@@ -66,7 +66,6 @@
                                     <th>Nama Produk</th>
                                     <th>Total Bayar</th>
                                     <th>Jumlah Uang</th>
-                                    <th>Diskon</th>
                                     <th>Pelanggan</th>
                                     <th>Kasir</th>
                                     <th>Actions</th>
@@ -82,7 +81,6 @@
                                         <td><?= $s['nama_produk']; ?></td>
                                         <td><?= number_format($s['total_bayar']); ?></td>
                                         <td><?= number_format($s['jumlah_uang']); ?></td>
-                                        <td><?= $s['diskon']; ?></td>
                                         <td><?= $s['pelanggan']; ?></td>
                                         <td><?= $s['kasir']; ?></td>
                                         <td>

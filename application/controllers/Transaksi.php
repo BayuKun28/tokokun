@@ -6,7 +6,7 @@ class Transaksi extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status') !== 'login') {
+        if (!$this->session->userdata('is_logged_in')) {
             redirect('/');
         }
         $this->load->model('transaksi_model');

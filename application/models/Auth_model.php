@@ -15,4 +15,10 @@ class Auth_model extends CI_Model
         $this->db->select('nama, alamat');
         return $this->db->get('toko')->row();
     }
+    public function read()
+    {
+        $query = "SELECT * FROM pengguna";
+        return $this->db->query($query)->result_array();
+        echo json_encode($query);
+    }
 }

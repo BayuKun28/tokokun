@@ -72,6 +72,9 @@
             <li>
                 <a href="<?= base_url('Pengaturan'); ?>"><i class="fa fa-gears fa-fw"></i> Pengaturan</a>
             </li>
+            <li>
+                <a href="<?= base_url('Auth/pengguna'); ?>"><i class="fa fa-user fa-fw"></i> Pengguna</a>
+            </li>
         </ul>
     </div>
 </div>

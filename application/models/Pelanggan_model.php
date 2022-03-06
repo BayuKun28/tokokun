@@ -22,4 +22,10 @@ class Pelanggan_model extends CI_Model
         $this->db->like('nama', $search);
         return $this->db->get($this->table)->result();
     }
+    public function getpelanggan($a)
+    {
+        $query = "SELECT id ,nama from pelanggan WHERE nama LIKE '%$a%'";
+        return $this->db->query($query)->result_array();
+        echo json_encode($query);
+    }
 }

@@ -7,7 +7,7 @@ class Pelanggan extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status') !== 'login') {
+        if (!$this->session->userdata('is_logged_in')) {
             redirect('/');
         }
         $this->load->model('pelanggan_model');
@@ -22,6 +22,13 @@ class Pelanggan extends CI_Controller
         $this->load->view('templates/topbar', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('pelanggan/index', $data);
+    }
+
+    public function getpelanggans2()
+    {
+        $pel = $this->input->get('pel');
+        $query = $this->pelanggan_model->getpelanggan($pel, 'nama');
+        echo json_encode($query);
     }
 
     public function addpelanggan()

@@ -6,7 +6,7 @@ class Order extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status') !== 'login') {
+        if (!$this->session->userdata('is_logged_in')) {
             redirect('/');
         }
         $this->load->model('transaksi_model');
@@ -93,6 +93,7 @@ class Order extends CI_Controller
         $total = $this->cart->total();
         $uangbayar1 = $this->input->post('uangbayar');
         $uangbayar = str_replace(',', '', $uangbayar1);
+        $pelanggan = $this->input->post('pelanggan');
 
         if (($uangbayar < $total) || $total < 1 || $uangbayar < 1) {
             $this->session->set_flashdata('message', 'Uang Kurang');
@@ -103,6 +104,7 @@ class Order extends CI_Controller
                 $data_order = array(
                     'jumlah_uang' => $uangbayar,
                     'nota' => $nomornota,
+                    'pelanggan' => $pelanggan,
                     'tanggal' => date('Y-m-d H:i:s'),
                     'kasir' => $this->session->userdata('id')
                 );
