@@ -29,6 +29,10 @@ class Order extends CI_Controller
         $this->load->view('order/index', $data);
     }
 
+    public function tes()
+    {
+    }
+
     public function getprodukscan()
     {
         $bar = $this->input->post('barcode');
